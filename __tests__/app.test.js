@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const Phone = require('../lib/models/Phone');
 
 describe('any-api routes', () => {
   beforeEach(() => {
@@ -24,4 +25,19 @@ describe('any-api routes', () => {
 
     expect(res.body).toEqual({ id: expect.any(String), ...expected });
   });
+
+
+  it('get all of our phones', async () => {
+    const expected = await Phone.getAllPhones();
+    // const expected = {
+    //   name: 'blubberPhone',
+    //   color: 'space-blue',
+    //   yearReleased: 2008,
+    //   inventor: 'guy WIth MasK',
+    // };
+    const res = await request(app).get('/api/v1/phones');
+
+    expect(res.body).toEqual(expected);
+  });
+
 });
