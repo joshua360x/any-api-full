@@ -20,22 +20,22 @@ describe('any-api routes', () => {
       yearReleased: 2008,
       inventor: 'guy WIth MasK',
     };
-    const res =
-      await request(app).post('/api/v1/phones').send(expected);
+    const res = await request(app).post('/api/v1/phones').send(expected);
 
     expect(res.body).toEqual({ id: expect.any(String), ...expected });
   });
 
-
   it('get all of our phones', async () => {
     // const expected = await Phone.getAllPhones();
-    const expected = [{
-      name: 'blubberPhone',
-      id: expect.any(String),
-      color: 'space-blue',
-      yearReleased: 2008,
-      inventor: 'guy WIth MasK',
-    }];
+    const expected = [
+      {
+        name: 'blubberPhone',
+        id: expect.any(String),
+        color: 'space-blue',
+        yearReleased: 2008,
+        inventor: 'guy WIth MasK',
+      },
+    ];
     const res = await request(app).get('/api/v1/phones');
 
     expect(res.body).toEqual(expected);
@@ -51,14 +51,23 @@ describe('any-api routes', () => {
   it('update a phone by its ID', async () => {
     // const expected = await Phone.getPhoneByASpecificID(1);
     const expected = {
-      name: 'blubberPhone',
-      id: expect.any(String),
+      name: 'piePhone',
+      id: '1',
       color: 'space-blue',
       yearReleased: 2008,
       inventor: 'guy WIth MasK',
     };
-    const res = await request(app).patch(`/api/v1/phones/${expected.id}`, expected.name = 'jPhone');
-    expect(res.body).toEqual(expected);
+    const res = await request(app)
+      .patch('/api/v1/phones/1')
+      .send({ name: 'piePhone' });
+    console.log('response from test', res.body);
+    expect(res.body).toEqual({
+      id: '1',
+      name: 'piePhone',
+      color: 'space-blue',
+      yearReleased: 2008,
+      inventor: 'guy WIth MasK',
+    });
   });
 
   it('deletes a phone, so sad', async () => {
@@ -66,5 +75,4 @@ describe('any-api routes', () => {
     const res = await request(app).delete(`/api/v1/phones/${expected.id}`);
     expect(res.body).toEqual(expected);
   });
-
 });
