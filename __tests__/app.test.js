@@ -48,6 +48,19 @@ describe('any-api routes', () => {
     expect(res.body).toEqual(expected);
   });
 
+  it('update a phone by its ID', async () => {
+    // const expected = await Phone.getPhoneByASpecificID(1);
+    const expected = {
+      name: 'blubberPhone',
+      id: expect.any(String),
+      color: 'space-blue',
+      yearReleased: 2008,
+      inventor: 'guy WIth MasK',
+    };
+    const res = await request(app).patch(`/api/v1/phones/${expected.id}`, expected.name = 'jPhone');
+    expect(res.body).toEqual(expected);
+  });
+
   it('deletes a phone, so sad', async () => {
     const expected = await Phone.getPhoneByASpecificID(1);
     const res = await request(app).delete(`/api/v1/phones/${expected.id}`);
