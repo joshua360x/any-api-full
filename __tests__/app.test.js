@@ -41,11 +41,17 @@ describe('any-api routes', () => {
     expect(res.body).toEqual(expected);
   });
 
-
+  // ask question about this
   it('get a phone by its ID', async () => {
-    const expected = await Phone.getByASpecificID(1);
+    const expected = await Phone.getPhoneByASpecificID(1);
     const res = await request(app).get(`/api/v1/phones/${expected.id}`);
-    expect(res.body).toEqual({ ...expected });
+    expect(res.body).toEqual(expected);
+  });
+
+  it('deletes a phone, so sad', async () => {
+    const expected = await Phone.getPhoneByASpecificID(1);
+    const res = await request(app).delete(`/api/v1/phones/${expected.id}`);
+    expect(res.body).toEqual(expected);
   });
 
 });
